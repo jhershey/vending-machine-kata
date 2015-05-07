@@ -4,7 +4,7 @@ using VendingMachine;
 namespace VendingMachineTest
 {
     [TestClass]
-    public class VendingMachineTest
+    public class AcceptCoinsStoryTest
     {
         private VendingMachine.VendingMachine machine;
 
@@ -34,17 +34,17 @@ namespace VendingMachineTest
         {
             machine.InsertCoin(Coin.Nickle);
             Assert.AreEqual(machine.CurrentAmount, 5);
-            Assert.AreEqual(machine.Display, "5");
+            Assert.AreEqual(machine.GetDisplay(), "5");
 
             machine.InsertCoin(Coin.Dime);
             Assert.AreEqual(machine.CurrentAmount, 15);
-            Assert.AreEqual(machine.Display, "15");
+            Assert.AreEqual(machine.GetDisplay(), "15");
         }
 
         [TestMethod]
         public void ShouldDisplayINSERTCOINSWhenNoCoins()
         {
-            Assert.AreEqual(machine.Display, VendingMachine.VendingMachine.INSERT_COIN_DISPLAY);
+            Assert.AreEqual(machine.GetDisplay(), VendingMachine.VendingMachine.DisplayMessages.INSERT_COIN);
         }
 
         [TestMethod]
