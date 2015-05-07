@@ -20,32 +20,30 @@ namespace VendingMachine
 
     public class VendingMachine
     {
+
         public const String INSERT_COIN_DISPLAY = "INSERT COIN";
+        public const String THANK_YOU_DISPLAY = "THANK YOU";
 
         public class InvalidCoinException : Exception { };
 
         private Coin[] validCoins = { Coin.Nickle, Coin.Dime, Coin.Quarter };
 
         public int CurrentAmount { get;set; }
-        public String Display {
-            get
-            {
-                if (CurrentAmount == 0)
-                {
-                    return INSERT_COIN_DISPLAY;
-                }
-                return CurrentAmount.ToString();
-            }
-        }
+        public String Display { get; set; }
         public int CoinReturn { get; set; }
-        public Product Dispenser { get; set; }
+        // public Product ?Dispenser { get; set; }
 
+        public VendingMachine()
+        {
+            Display = INSERT_COIN_DISPLAY;
+        }
 
         public int InsertCoin(Coin coin)
         {
             if (validCoins.Contains(coin))
             {
                 CurrentAmount += (int)coin;
+                Display = CurrentAmount.ToString();
                 return CurrentAmount;
             }
 
@@ -53,9 +51,16 @@ namespace VendingMachine
             throw new InvalidCoinException();
         }
 
-        public void SelectProduct(Product product)
+        public Product? SelectProduct(Product product)
         {
-            
+            if ((int)CurrentAmount >= (int)product)
+            {
+                Display = THANK_YOU_DISPLAY;
+                CoinReturn = CurrentAmount - (int)product;
+                CurrentAmount = 0;
+                return product;
+            }
+            return null;
         }
     }   
 }

@@ -4,7 +4,7 @@ using VendingMachine;
 namespace VendingMachineTest
 {
     [TestClass]
-    public partial class AcceptCoinsStoryTest
+    public class AcceptCoinsStoryTest
     {
         private VendingMachine.VendingMachine machine;
 

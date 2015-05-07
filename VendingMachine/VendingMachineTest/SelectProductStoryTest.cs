@@ -4,19 +4,17 @@ using VendingMachine;
 namespace VendingMachineTest
 {
     [TestClass]
-    public partial class SelectProductStoryTest
+    public class SelectProductStoryTest
     {
         [TestMethod]
-        public void ShouldDispenseProduct()
+        public void ShouldDispenseProductWithEnoughMoney()
         {
             var machine = new VendingMachine.VendingMachine();
             machine.InsertCoin(Coin.Quarter);
             machine.InsertCoin(Coin.Quarter);
             machine.InsertCoin(Coin.Quarter);
             machine.InsertCoin(Coin.Quarter);
-            machine.SelectProduct(Product.Cola);
-            Assert.AreEqual(machine.Dispenser, Product.Cola);
-
+            Assert.AreEqual(machine.SelectProduct(Product.Cola), Product.Cola);
 
         }
     }
