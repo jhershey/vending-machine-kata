@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VendingMachine;
 
 namespace VendingMachineTest
 {
@@ -7,8 +7,17 @@ namespace VendingMachineTest
     public partial class SelectProductStoryTest
     {
         [TestMethod]
-        public void TestMethod1()
+        public void ShouldDispenseProduct()
         {
+            var machine = new VendingMachine.VendingMachine();
+            machine.InsertCoin(Coin.Quarter);
+            machine.InsertCoin(Coin.Quarter);
+            machine.InsertCoin(Coin.Quarter);
+            machine.InsertCoin(Coin.Quarter);
+            machine.SelectProduct(Product.Cola);
+            Assert.AreEqual(machine.Dispenser, Product.Cola);
+
+
         }
     }
 }

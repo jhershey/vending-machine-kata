@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace VendingMachine
 {
@@ -12,6 +9,13 @@ namespace VendingMachine
         Nickle = 5,
         Dime = 10,
         Quarter = 25
+    }
+
+    public enum Product:int
+    {
+        Cola = 100,
+        Chips = 50,
+        Candy = 65
     }
 
     public class VendingMachine
@@ -34,6 +38,7 @@ namespace VendingMachine
             }
         }
         public int CoinReturn { get; set; }
+        public Product Dispenser { get; set; }
 
 
         public int InsertCoin(Coin coin)
@@ -46,6 +51,11 @@ namespace VendingMachine
 
             CoinReturn += (int)coin;
             throw new InvalidCoinException();
+        }
+
+        public void SelectProduct(Product product)
+        {
+            
         }
     }   
 }
