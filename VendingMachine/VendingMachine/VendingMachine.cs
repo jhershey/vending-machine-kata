@@ -24,7 +24,8 @@ namespace VendingMachine
         {
             Start,
             AcceptingCoins,
-            ProductDispensed
+            ProductDispensed,
+            ProductPriceCheck
         };
         private MachineState currentState;
 
@@ -45,27 +46,41 @@ namespace VendingMachine
 
         private Coin[] validCoins = { Coin.Nickle, Coin.Dime, Coin.Quarter };
 
-        public int CurrentAmount { get;set; }
+        public int CurrentAmount { get; set; }
+        private Product? selectedProduct { get;set; }
 
-        public String Display {
-            get {
-                switch (currentState)
-                {
-                    case MachineState.Start:
-                        return DisplayMessages.INSERT_COIN;
+        public String GetDisplay()
+        {
+            switch (currentState)
+            {
+                case MachineState.Start:
+                    return DisplayMessages.INSERT_COIN;
 
-                    case MachineState.AcceptingCoins:
-                        return CurrentAmount.ToString();
+                case MachineState.AcceptingCoins:
+                    return CurrentAmount.ToString();
 
-                    case MachineState.ProductDispensed:
+                case MachineState.ProductDispensed:
+                    SetState(MachineState.Start);
+                    return DisplayMessages.THANK_YOU;
+
+                case MachineState.ProductPriceCheck:
+                    if (CurrentAmount == 0)
+                    {
                         SetState(MachineState.Start);
-                        return DisplayMessages.THANK_YOU;
+                    }
+                    else
+                    {
+                        SetState(MachineState.AcceptingCoins);
+                    }
+                    return CreatePriceCheckMessage(selectedProduct);
 
-                    default:
-                        throw new Exception("Trying to get Display with unknown machine state");
-                }
+
+                default:
+                    throw new Exception("Trying to get Display with unknown machine state");
             }
         }
+
+
         public int CoinReturn { get; set; }
 
         public VendingMachine()
@@ -89,6 +104,7 @@ namespace VendingMachine
 
         public Product? SelectProduct(Product product)
         {
+            selectedProduct = product;
             if ((int)CurrentAmount >= (int)product)
             {
                 SetState(MachineState.ProductDispensed);
@@ -96,12 +112,13 @@ namespace VendingMachine
                 CurrentAmount = 0;
                 return product;
             }
+            SetState(MachineState.ProductPriceCheck);
             return null;
         }
 
-        public static String CreatePriceMessage(Product product)
+        public static String CreatePriceCheckMessage(Product? product)
         {
-            return DisplayMessages.PRICE + ": " + ((int)product).ToString();
+            return product.HasValue ? DisplayMessages.PRICE + ": " + ((int)product).ToString() : "";
         }
 
         private void SetState(MachineState newState)
@@ -141,6 +158,20 @@ namespace VendingMachine
                         default:
                             currentState = newState;
                             break;
+                    }
+                    break;
+
+                case MachineState.ProductPriceCheck:
+                    switch (newState)
+                    {
+                        case MachineState.Start:
+                        case MachineState.AcceptingCoins:
+   
+                            currentState = newState;
+                            break;
+
+                        default:
+                            throw new InvalidStateChangeException(String.Format("Tried to goto invalid state {0} from ProductPriceCheck state", newState));
                     }
                     break;
             }

@@ -22,15 +22,15 @@ namespace VendingMachineTest
             machine.InsertCoin(Coin.Quarter);
             machine.InsertCoin(Coin.Quarter);
             Assert.AreEqual(machine.SelectProduct(Product.Cola), Product.Cola);
-            Assert.AreEqual(machine.Display, VendingMachine.VendingMachine.DisplayMessages.THANK_YOU);
-            Assert.AreEqual(machine.Display, VendingMachine.VendingMachine.DisplayMessages.INSERT_COIN);
+            Assert.AreEqual(machine.GetDisplay(), VendingMachine.VendingMachine.DisplayMessages.THANK_YOU);
+            Assert.AreEqual(machine.GetDisplay(), VendingMachine.VendingMachine.DisplayMessages.INSERT_COIN);
             Assert.AreEqual(machine.CurrentAmount, 0);
 
             machine.InsertCoin(Coin.Quarter);
             machine.InsertCoin(Coin.Quarter);
             Assert.AreEqual(machine.SelectProduct(Product.Chips), Product.Chips);
-            Assert.AreEqual(machine.Display, VendingMachine.VendingMachine.DisplayMessages.THANK_YOU);
-            Assert.AreEqual(machine.Display, VendingMachine.VendingMachine.DisplayMessages.INSERT_COIN);
+            Assert.AreEqual(machine.GetDisplay(), VendingMachine.VendingMachine.DisplayMessages.THANK_YOU);
+            Assert.AreEqual(machine.GetDisplay(), VendingMachine.VendingMachine.DisplayMessages.INSERT_COIN);
             Assert.AreEqual(machine.CurrentAmount, 0);
 
             machine.InsertCoin(Coin.Quarter);
@@ -38,8 +38,8 @@ namespace VendingMachineTest
             machine.InsertCoin(Coin.Quarter);
             machine.InsertCoin(Coin.Quarter);
             Assert.AreEqual(machine.SelectProduct(Product.Candy), Product.Candy);
-            Assert.AreEqual(machine.Display, VendingMachine.VendingMachine.DisplayMessages.THANK_YOU);
-            Assert.AreEqual(machine.Display, VendingMachine.VendingMachine.DisplayMessages.INSERT_COIN);
+            Assert.AreEqual(machine.GetDisplay(), VendingMachine.VendingMachine.DisplayMessages.THANK_YOU);
+            Assert.AreEqual(machine.GetDisplay(), VendingMachine.VendingMachine.DisplayMessages.INSERT_COIN);
             Assert.AreEqual(machine.CurrentAmount, 0);
             
         }
@@ -47,12 +47,15 @@ namespace VendingMachineTest
         [TestMethod]
         public void ShouldDisplayPriceWithNotEnoughMoney()
         {
-            machine.InsertCoin(Coin.Quarter);
             Assert.AreEqual(machine.SelectProduct(Product.Cola), null);
-            Assert.AreEqual(machine.Display, VendingMachine.VendingMachine.CreatePriceMessage(Product.Cola) );
-            Assert.AreEqual(machine.Display, (int)Coin.Quarter);
-            Assert.AreEqual(machine.CurrentAmount, 0);
+            Assert.AreEqual(machine.GetDisplay(), VendingMachine.VendingMachine.CreatePriceCheckMessage(Product.Cola));
+            Assert.AreEqual(machine.GetDisplay(), VendingMachine.VendingMachine.DisplayMessages.INSERT_COIN);
 
+            machine.InsertCoin(Coin.Quarter); 
+            Assert.AreEqual(machine.SelectProduct(Product.Cola), null);  
+            Assert.AreEqual(machine.GetDisplay(), VendingMachine.VendingMachine.CreatePriceCheckMessage(Product.Cola) );
+            Assert.AreEqual(machine.GetDisplay(), ((int)Coin.Quarter).ToString());
+            
         }
     }
 }
