@@ -32,8 +32,8 @@ namespace VendingMachine
         {
             public const String INSERT_COIN = "INSERT COIN";
             public const String THANK_YOU = "THANK YOU";
+            public const String PRICE = "PRICE";
         };
-
 
         public class InvalidCoinException : Exception {
             public InvalidCoinException(string message, string v) : base(message) { }
@@ -74,7 +74,6 @@ namespace VendingMachine
             CurrentAmount = 0;
         }
 
-
         public int InsertCoin(Coin coin)
         {
             if (validCoins.Contains(coin))
@@ -98,6 +97,11 @@ namespace VendingMachine
                 return product;
             }
             return null;
+        }
+
+        public static String CreatePriceMessage(Product product)
+        {
+            return DisplayMessages.PRICE + ": " + ((int)product).ToString();
         }
 
         private void SetState(MachineState newState)
