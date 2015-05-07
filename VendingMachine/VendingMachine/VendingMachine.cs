@@ -108,7 +108,7 @@ namespace VendingMachine
             if ((int)CurrentAmount >= (int)product)
             {
                 SetState(MachineState.ProductDispensed);
-                //CoinReturn = CurrentAmount - (int)product;
+                CoinReturn = CurrentAmount - (int)product;
                 CurrentAmount = 0;
                 return product;
             }
