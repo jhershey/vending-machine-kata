@@ -18,11 +18,13 @@ namespace VendingMachineTest
             machine.InsertCoin(Coin.Quarter);
             Assert.AreEqual(machine.SelectProduct(Product.Cola), Product.Cola);
             Assert.AreEqual(machine.Display, VendingMachine.VendingMachine.THANK_YOU_DISPLAY);
+            Assert.AreEqual(machine.Display, VendingMachine.VendingMachine.INSERT_COIN_DISPLAY);
 
             machine.InsertCoin(Coin.Quarter);
             machine.InsertCoin(Coin.Quarter);
             Assert.AreEqual(machine.SelectProduct(Product.Chips), Product.Chips);
             Assert.AreEqual(machine.Display, VendingMachine.VendingMachine.THANK_YOU_DISPLAY);
+            Assert.AreEqual(machine.Display, VendingMachine.VendingMachine.INSERT_COIN_DISPLAY);
 
             machine.InsertCoin(Coin.Quarter);
             machine.InsertCoin(Coin.Quarter);
@@ -30,6 +32,7 @@ namespace VendingMachineTest
             machine.InsertCoin(Coin.Quarter);
             Assert.AreEqual(machine.SelectProduct(Product.Candy), Product.Candy);
             Assert.AreEqual(machine.Display, VendingMachine.VendingMachine.THANK_YOU_DISPLAY);
+            Assert.AreEqual(machine.Display, VendingMachine.VendingMachine.INSERT_COIN_DISPLAY);
 
         }
     }
